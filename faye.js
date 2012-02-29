@@ -2,37 +2,19 @@ var cluster = require('cluster')
   , WebSocket = require('faye-websocket')
   , http = require('http')
   , util = require('util')
-  , ansi = require('ansi');
+  , ansi = require('ansi')
+  , fs = require('fs');
 require('tinycolor');
-
-function roundPrec(num, prec) {
-  var mul = Math.pow(10, prec);
-  return Math.round(num * mul) / mul;
-}
-
-function humanSize(bytes) {
-  if (bytes >= 1048576) return roundPrec(bytes / 1048576, 2) + ' MB';
-  if (bytes >= 1024) return roundPrec(bytes / 1024, 2) + ' kB';
-  return roundPrec(bytes, 2) + ' B';
-}
-
-function generateRandomData(size) {
-  var buffer = new Buffer(size);
-  for (var i = 0; i < size; ++i) {
-    buffer[i] = ~~(Math.random() * 127);
-  }
-  return buffer;
-}
+require('./lib/shared');
 
 if (cluster.isMaster) {
-
   var server = http.createServer();
   server.addListener('upgrade', function(request, socket, head) {
-    var ws = new WebSocket(request, socket, head);
-    ws.onmessage = function(event) {
-      ws.send(event.data);
+    var wss = new WebSocket(request, socket, head);
+    wss.onmessage = function(event) {
+      wss.send(event.data);
     };
-    ws.onclose = function(event) {};
+    wss.onclose = function(event) {};
     cluster.on('death', function(worker) {
       console.log('Client closed');
       process.exit();
@@ -44,22 +26,10 @@ if (cluster.isMaster) {
 }
 else {
   var cursor = ansi(process.stdout);
-
-  var configs = [
-    [true, 20000, 64],
-    [true, 10000, 16*1024],
-    [true, 2000, 128*1024],
-    [true, 200, 1024*1024],
-    [true, 1, 500*1024*1024],
-    [false, 20000, 64],
-    [false, 10000, 16*1024],
-    [false, 2000, 128*1024],
-    [false, 200, 1024*1024],
-  ];
-
-  var largest = configs[0][1];
-  for (var i = 0, l = configs.length; i < l; ++i) {
-    if (configs[i][2] > largest) largest = configs[i][2];
+  var cases = JSON.parse(fs.readFileSync('config.json', 'utf8')).cases;
+  var largest = cases[0][1];
+  for (var i = 0, l = cases.length; i < l; ++i) {
+    if (cases[i][2] > largest) largest = cases[i][2];
   }
 
   console.log('Generating %s of test data ...', humanSize(largest));
@@ -72,17 +42,25 @@ else {
     console.log(prefix);
     var client = new WebSocket.Client('ws://localhost:' + '8181/');
     var dt;
+    var counterId;
     var roundtrip = 0;
     function send() {
       client.send(data);
     }
     client.onopen = function(event) {
+      counterId = setInterval(function() {
+        cursor.up();
+        console.log('%s:\t%ds ...'
+          , prefix
+          , ~~((Date.now() - dt) / 1000));
+      }, 1000);
       dt = Date.now();
       send();
     };
     client.onmessage = function(event) {
       if (++roundtrip == roundtrips) {
         var elapsed = Date.now() - dt;
+        clearInterval(counterId);
         cursor.up();
         console.log('%s:\t%ss\t%s'
           , useBinary ? prefix.green : prefix.cyan
@@ -97,8 +75,8 @@ else {
   }
 
   (function run() {
-    if (configs.length == 0) process.exit();
-    var config = configs.shift();
+    if (cases.length == 0) process.exit();
+    var config = cases.shift();
     config.push(run);
     roundtrip.apply(null, config);
   })();
