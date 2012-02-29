@@ -1,0 +1,19 @@
+{
+  "author": "",
+  "name": "websocket-bench",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.6.11"
+  },
+  "dependencies": {
+    "ws": "latest",
+    "faye-websocket": "latest",
+    "ansi": "latest",
+    "tinycolor": "latest"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
