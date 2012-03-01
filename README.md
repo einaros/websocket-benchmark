@@ -17,14 +17,14 @@ Running 1 roundtrips of 500 MB binary data:     5.9s..  84.08 MB/s
 
 faye:
 ```
-Running 40000 roundtrips of 64 B binary data: 5.7s..  441.85 kB/s
+Running 40000 roundtrips of 64 B binary data:   5.7s..  441.85 kB/s
 Running 20000 roundtrips of 16 kB binary data:  9.8s..  31.95 MB/s
 Running 4000 roundtrips of 128 kB binary data:  13.2s.. 37.87 MB/s
-Running 400 roundtrips of 1 MB binary data: 10.3s.. 38.79 MB/s
-Running 40000 roundtrips of 64 B text data: 6.8s..  368.41 kB/s
-Running 20000 roundtrips of 16 kB text data:  17.5s.. 17.91 MB/s
-Running 4000 roundtrips of 128 kB text data:  34.2s.. 14.61 MB/s
-Running 400 roundtrips of 1 MB text data: 52.8s.. 7.58 MB/s
+Running 400 roundtrips of 1 MB binary data:     10.3s.. 38.79 MB/s
+Running 40000 roundtrips of 64 B text data:     6.8s..  368.41 kB/s
+Running 20000 roundtrips of 16 kB text data:    17.5s.. 17.91 MB/s
+Running 4000 roundtrips of 128 kB text data:    34.2s.. 14.61 MB/s
+Running 400 roundtrips of 1 MB text data:       52.8s.. 7.58 MB/s
 Running 1 roundtrips of 500 MB binary data: ... never actually completes
 ```
 
