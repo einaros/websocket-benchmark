@@ -1,4 +1,4 @@
-`npm install --ws:native`
+`npm install`
 
 `node ws.js`
 `node faye.js`
