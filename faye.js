@@ -15,7 +15,7 @@ if (cluster.isMaster) {
       wss.send(event.data);
     };
     wss.onclose = function(event) {};
-    cluster.on('death', function(worker) {
+    cluster.on('exit', function(worker) {
       console.log('Client closed');
       process.exit();
     });
@@ -27,7 +27,7 @@ if (cluster.isMaster) {
 else {
   var cursor = ansi(process.stdout);
   var cases = JSON.parse(fs.readFileSync('config.json', 'utf8')).cases;
-  var largest = cases[0][1];
+  var largest = cases[0][2];
   for (var i = 0, l = cases.length; i < l; ++i) {
     if (cases[i][2] > largest) largest = cases[i][2];
   }
