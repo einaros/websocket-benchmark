@@ -17,6 +17,6 @@ for (var i = 0, l = keys.length; i < l; ++i) {
   var rA = resA[key];
   var rB = resB[key];
   var aIsFaster = rA.speed > rB.speed;
-  var desc = util.format('%d roundtrips of %s %s data: %s %d%% faster', rA.roundtrips, humanSize(rA.size), rA.binary ? 'binary' : 'text', aIsFaster ? fileA : fileB, Math.round((aIsFaster ? (rA.speed / rB.speed) : (rB.speed / rA.speed)) * 100) - 100);
+  var desc = util.format('Roundtrips of %s %s data: %s %d%% faster', humanSize(rA.size), rA.binary ? 'binary' : 'text', aIsFaster ? fileA : fileB, Math.round((aIsFaster ? (rA.speed / rB.speed) : (rB.speed / rA.speed)) * 100) - 100);
   console.log(desc);
 }

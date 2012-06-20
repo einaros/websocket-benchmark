@@ -1,11 +1,10 @@
 { 
-  "repetitions": 10,
   "cases": [
     { "binary": true, "roundtrips": 40000, "size": 64 },
     { "binary": true, "roundtrips": 20000, "size": 16384 },
     { "binary": true, "roundtrips": 4000, "size": 131072 },
     { "binary": true, "roundtrips": 400, "size": 1048576 },
-    { "binary": true, "roundtrips": 10, "size": 10485760 },
+    { "binary": true, "roundtrips": 40, "size": 10485760 },
     { "binary": false, "roundtrips": 40000, "size": 64 },
     { "binary": false, "roundtrips": 20000, "size": 16384 },
     { "binary": false, "roundtrips": 4000, "size": 131072 },
