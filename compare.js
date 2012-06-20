@@ -17,7 +17,7 @@ var fileB = process.argv[3];
 var nameB = path.basename(fileB).cyan.bold;
 var resB = JSON.parse(fs.readFileSync(fileB));
 
-console.log('Comparing benchmark results of %s and %s', nameA, nameB);
+console.log('Comparing WebSocket benchmark results of %s and %s', nameA, nameB);
 
 var keys = Object.keys(resA);
 for (var i = 0, l = keys.length; i < l; ++i) {
